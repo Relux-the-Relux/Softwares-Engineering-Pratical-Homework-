@@ -1,0 +1,21 @@
+0.1v - 27/11/17(by Nikolay):
+
+0.2v - 27/11/17(by Nikolay):
+
+	- constant Author added to the Book class.
+	- small correcture of commentary in the Book class.
+	- removed User as input from the function orderBook.
+	- implemented function orderBook.
+	- functions now correctly demand User input as a User object, not a String.
+	- BookTree class now has a root
+	- User class now has a constructor.
+
+0.3v - 28/11/17(by Lucas)
+
+	- added a changelog.
+	- lent books and ordered books by user are now properly saved as Book array inetad of string arrays.
+	- added search function to the tree.
+	- added an add function to the tree.
+	- tree is a now initialized with 0 books.
+	- added some javadoc documentation to functions.
+	- function lendOut now properly adds the book to the list of books lent by user.

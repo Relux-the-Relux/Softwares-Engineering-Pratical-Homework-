@@ -12,6 +12,7 @@ public class Book {
 	int timesOrderedByUsers = 0; //changed name for clarity
 	
 	//pointers for implementing binary tree to represent library assortment
+	Book parent;
 	Book rightChild;
 	Book leftChild;
 	
@@ -25,13 +26,21 @@ public class Book {
 		
 	}
 	
-	//function to lend out book
+	/**
+	 * Functions to lend out books.
+	 * It sets the book as unavailable and increases the number of times it was lent out.
+	 * Also, adds the book toe the list of books lent out by the user.
+	 * 
+	 * @param user user that requests the book.
+	 * 
+	 */
 	public void lendOut(User user) {
 	
 		
 		this.available = false;
 		this.timesLentOut++;
-		//TODO: add book to user's list of lent books
+		user.addBookToLendArry(this);
+		return;
 	}	
 	
 	
@@ -44,7 +53,7 @@ public class Book {
 			if (this.timesLentOut >= 50) {
 				
 				//TODO buy book if ordered twice or more 
-				if (timesOrdered >= 2) orderBook();
+				if (timesOrderedByUsers >= 2) orderBook();
 				
 			}
 			

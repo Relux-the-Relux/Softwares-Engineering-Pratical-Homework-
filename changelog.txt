@@ -78,7 +78,29 @@
 		- if the book is not yet in the database, it adds the book to the database and marks it as unavailable
 		- calls orderBookRequest() from Book.java if succesful
 	
-	
+0.7v - 29/11/17(by Nikolay)
+
+	Changes to User.java:
+
+		- added leftChild, middleChild, rightChild, parent pointers to User objects for the creation of a UserTree
+		- added functions (full descriptions in Javadoc comments):
+			-  void addBookToLendArray(Book book)
+				-adds Book object to user's array of lent out books
+			- void removeBookFromLendArray(Book book)
+				-removes Book object from user's array of lent out books
+			- void addBookToOrderedArray(Book book)
+				-adds Book object to user's array of requested books
+			- void removeBookFromOrderedArray(Book book)
+				-removes Book object from user's array of requested books
+			- boolean searchOrderedArray(Book book)
+				-returns true if Book object is in user's array of requested books, returns false if it isn't
+		- changed all functions and attributes from public to protected
+
+
+	Changes to Book.java:
+
+		-added cases in bookRequest() where user is either not registered or has already requested this same book
+		-added call to addBookToOrderedArray()
 	
 	
 	

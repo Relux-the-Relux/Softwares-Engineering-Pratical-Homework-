@@ -224,10 +224,15 @@ public class BookTree {
 		
 		User user = userTree.findUser(userName);
 		
-		//TODO: check for if the user is not registred or has already ordered the book.
+		if (user == null || user.searchOrderedBooks(book) == true) {
+			//TODO what now? simply return?
+			return;
+		}
 		
 		book.bookOrderRequest();
+		
 		//TODO: function to add to the array of ordered book by the user
+		user.addBookToOrderedArray(book);
 		
 		return;
 		

@@ -2,64 +2,64 @@
 public class Book {
 
 	
-	public boolean available; //is the book available in the library?
+	
 	public final String BOOKNAME; 
 	public final String AUTHOR;
 	public final int ISBN;
-	int timesLentOut; //taken out of assortment after 50 times, and ordered again if  
+	
+	protected boolean available; //is the book available in the library?
+	protected boolean onceAvailable; // if the book was vailable at least once before
+	protected int timesLentOut; //taken out of assortment after 50 times, and ordered again if  
 	//					ordered twice or more; 
-	User lender; 
-	int timesOrderedByUsers = 0; //changed name for clarity
+	protected User lender; 
+	protected int timesOrderedByUsers = 0; //changed name for clarity
 	
 	//pointers for implementing binary tree to represent library assortment
-	Book parent;
-	Book rightChild;
-	Book leftChild;
+	protected Book parent;
+	protected Book rightChild;
+	protected Book leftChild;
 	
 	//constructor
-	public Book(String name, int isbn, String author) {
+	protected Book(String name, int isbn, String author, boolean Available) {
 		
 		this.BOOKNAME = name;
 		this.ISBN = isbn;
 		this.AUTHOR = author;
-		this.available = true;
+		
+		this.available = Available;
+		this.onceAvailable = Available;
+		this.lender = null;
+		this.timesLentOut = 0;
+		this.timesOrderedByUsers = 0;
 		
 	}
 	
 	/**
 	 * Functions to lend out books.
 	 * It sets the book as unavailable and increases the number of times it was lent out.
-	 * Also, adds the book toe the list of books lent out by the user.
-	 * 
-	 * @param user user that requests the book.
 	 * 
 	 */
-	public void lendOut(User user) {
-	
+	protected void lendOut() {
 		
 		this.available = false;
 		this.timesLentOut++;
-		user.addBookToLendArry(this);
+		
 		return;
 	}	
 	
-	
-	public void returnBook(User user) {
-		
-		if(!available) {
+	/**
+	 * 
+	 */
+	protected void returnBook() {
 			
-			//TODO delete from user's list of lent books
-			
-			if (this.timesLentOut >= 50) {
-				
-				//TODO buy book if ordered twice or more 
-				if (timesOrderedByUsers >= 2) orderBook();
-				
-			}
-			
-			//what is to be done elsewise?
+		if (this.timesLentOut >= 50 && timesOrderedByUsers >= 2) {
+
+			orderBook();
+			return;
 			
 		}
+		this.available = false;
+		return;
 		
 	}
 	
@@ -68,20 +68,26 @@ public class Book {
 	 * therefore: move functionality to function bookOrderRequest 
 	 * and change local int timesOrdered to timesOrderedByUsers
 	 */
-	public void orderBook() {
+	private void orderBook() {
 		
 		this.available = true;
-		//guidelines in course say we should make functions as simple/granular as possible
-		//is it worth it to create functions solely for resetting these next two counters?
+		this.onceAvailable = true;
 		this.timesLentOut = 0; 
 		this.timesOrderedByUsers = 0;
 		
 	}
 	
-	public void bookOrderRequest (User user) {
+	protected void bookOrderRequest () {
 		
-		//TODO: implement boolean function that searches user's array of ordered books?
+		this.timesOrderedByUsers++;
 		
+		if(this.timesOrderedByUsers >= 5||(this.onceAvailable && this.timesOrderedByUsers >= 5)) {
+			if(this.available == false) {
+				orderBook();
+			}
+		}
+		
+		return;
 		
 	}
 }

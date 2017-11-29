@@ -38,25 +38,34 @@ public class Book {
 		this.leftChild = leftChild;
 	}
 	
+	/* obvious functionality; necessary because the API is supposed to provide the information
+	 * so that appropriate books can be bought
+	 */
+	public int getTimesOrderedByUsers() {
+		return this.timesOrderedByUsers;
+	}
+	
 	//function to lend out book
 	public void lendOut(User user) {
-	
-		
 		this.available = false;
 		this.timesLentOut++;
-		//TODO: add book to user's list of lent books
+		user.addBookToLendArray(this);
 	}	
 	
 	
 	public void returnBook(User user) {
 		
+		//beginning to think we don't need this test?
 		if(!available) {
 			
 			//TODO delete from user's list of lent books
+			user.removeBookFromLendArray(this);
 			
-			if (this.timesLentOut >= 50) {
+			if (this.timesLentOut == 50) {
 				
-				//TODO buy book if ordered twice or more 
+				//book taken out of assortment after being used too often
+				this.available = false;
+				//buy book if ordered twice or more 
 				if (timesOrderedByUsers >= 2) orderBook();
 				
 			}
@@ -84,8 +93,10 @@ public class Book {
 	
 	public void bookOrderRequest (User user) {
 		
-		//TODO: implement boolean function that searches user's array of ordered books?
-		
+		//make sure user hasn't ordered this book before
+		if (!user.searchOrderedBooks(this)) {
+			this.timesOrderedByUsers++;
+		}
 		
 	}
 }

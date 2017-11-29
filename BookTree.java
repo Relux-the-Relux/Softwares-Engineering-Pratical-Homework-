@@ -10,7 +10,11 @@ public class BookTree {
 		
 	}
 	
-	
+	/**
+	 * Adds a new Book object to the BookTree in RAM. Meant to be used either for adding a new book to 
+	 * the assortment or to load a new Book from the persistent data carrier into the RAM. 
+	 * @param newBook Book object to be added to the tree
+	 */
 	public void addNewBook(Book newBook) {
 		
 		/* check if tree has been built yet 

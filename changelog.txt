@@ -24,7 +24,3 @@
 	-changed addBook() function written by Lucas to addNewBook() function written by Nikolay
 	-changed findBook() function by Lucas to searchForBook() function by Nikolay
 	-incorporated addRoot() function by Lucas into both functions mentioned above
-
-0.4v - 29/11/17(by Steven)
-	- added leftChild, rightChild, middleChild, parent to User
-	- created UserTree with functions findUser, addUser

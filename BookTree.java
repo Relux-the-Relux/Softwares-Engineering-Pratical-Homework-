@@ -23,27 +23,38 @@ public class BookTree {
 	}
 	
 	/**
-	 * This function searches the tree for a book using its ISBN number.
-	 * 
-	 * @param isbn the ISBN number of the book
-	 * 
-	 * @return null if the book is not in the database.
-	 * 			the pointer to the book object if it is.
+	 * Searches for a book by its ISB (International Standard Book) number in the tree saved in RAM
+	 * and returns the book if found and null otherwise. 
+	 * @param ISBN the International Standard Book Number of the book to be looked up, saved as an integer
+	 * @return book as an instance of the class Book, if found; null otherwise
 	 */
-	
-	public Book findBook(int isbn){
-	
-		Book searchBook = root;
+	public Book searchForBook(int ISBN) {
 		
-		while(searchBook != null && searchBook.ISBN != isbn) {
-			if(searchBook.ISBN < isbn) {
-				searchBook = searchBook.leftChild;
-			} else {
-				searchBook = searchBook.rightChild;
+		if(this.root == null) addRoot();
+		
+		//pointer used to course through the tree; lands on required book if the book is in the tree
+		Book courserPointer = this.root;
+		
+		//loop to course through the tree
+		while(courserPointer != null) {
+			
+			//if entered isbn is larger than isbn of current Book instance, go right in the tree
+			if (courserPointer.ISBN < ISBN) {
+				courserPointer = courserPointer.rightChild;
 			}
+			
+			//if entered isbn is smaller than isbn of current Book instance, go left in the tree
+			else if (courserPointer.ISBN > ISBN) {
+				courserPointer = courserPointer.leftChild;
+			}
+			
+			//the only option left is that the required book has been found
+			else return courserPointer;
 		}
 		
-		return searchBook;
+		//return a null pointer if book has not been found
+		return courserPointer;
+		
 	}
 	
 	/**
@@ -51,38 +62,46 @@ public class BookTree {
 	 * 
 	 * @param book book to be added to the tree.
 	 */
-	public void addBook(Book book) {
+	public void addNewBook(Book newBook) {
 		
-		if (root == null) {
-			addRoot(book);
-			return;
-		}
+		/* check if tree has been built yet 
+		 * TODO: Nikolay: I put this in because the assumption was that we only need to implement
+		 * the data structure used to organise the Book objects in RAM, so one function can technically 
+		 * account for both new books being added to the assortment and books being loaded into the RAM
+		 * from a persistent data carrier (data bank, hard drive etc.) 
+		 */
+		if (this.root == null) addRoot();
 		
-		Book searchBook = root;
 		
-		while(searchBook.ISBN != book.ISBN) {
+		int isbNum = newBook.ISBN;
+		
+		Book courserPointer = this.root, inserter = null;
+		
+		while(courserPointer != null) {
 			
-			if(searchBook.ISBN < book.ISBN) {
-				if(searchBook.leftChild == null){
-					searchBook.leftChild = book;
-					book.parent = searchBook;
-					return;
-				} else {
-					searchBook.leftChild = book;
-				}
-				
-			} else {
-				if(searchBook.rightChild == null){
-					searchBook.rightChild = book;
-					book.parent = searchBook;
-					return;
-				} else {
-					searchBook.rightChild = book;
-				}
-				
+			inserter = courserPointer;
+			
+			if(courserPointer.ISBN < isbNum) {
+				courserPointer = courserPointer.rightChild;
 			}
+			
+			//if entered isbn is smaller than isbn of current Book instance, go left in the tree
+			else if (courserPointer.ISBN > isbNum) {
+				courserPointer = courserPointer.leftChild;
+			}
+			
+			//TODO: else throw an exception, because book is already in the tree?
+			
 		}
 		
-		return;
+		if (inserter.ISBN > isbNum) {
+			inserter.setLeftChild(newBook);
+			newBook.setParent(inserter);
+		}
+		else {
+			inserter.setRightChild(newBook);
+			newBook.setParent(inserter);
+		}
+		
 	}
 }

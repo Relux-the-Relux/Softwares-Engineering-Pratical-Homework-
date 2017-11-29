@@ -19,3 +19,8 @@
 	- tree is a now initialized with 0 books.
 	- added some javadoc documentation to functions.
 	- function lendOut now properly adds the book to the list of books lent by user.
+	
+	Additional edits by Nikolay:
+	-changed addBook() function written by Lucas to addNewBook() function written by Nikolay
+	-changed findBook() function by Lucas to searchForBook() function by Nikolay
+	-incorporated addRoot() function by Lucas into both functions mentioned above

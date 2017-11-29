@@ -17,7 +17,11 @@ public class User {
 	 * @param book
 	 */
 	
-	public void addBookToLendArry(Book book) {
+	public void addBookToLendArray(Book book) {
+		//TODO: throw exception if user already has 10 books?
+		//not allowed to lend out more than 10
+		//if(lentBooks.length == 10) ...
+		
 		Book[] newLentArray = new Book[lentBooks.length+1];
 		
 		for(int i = 0; i < lentBooks.length; i++) {

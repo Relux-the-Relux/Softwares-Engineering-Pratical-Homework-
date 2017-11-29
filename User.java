@@ -3,7 +3,10 @@ public class User {
 	String userName;
 	Book[] lentBooks;
 	Book[] orderedBooks;
-	
+	User parent;
+	User rightChild;
+	User middleChild;
+	User leftChild;
 	public User(String name) {
 		
 		this.userName = name;
@@ -17,11 +20,7 @@ public class User {
 	 * @param book
 	 */
 	
-	public void addBookToLendArray(Book book) {
-		//TODO: throw exception if user already has 10 books?
-		//not allowed to lend out more than 10
-		//if(lentBooks.length == 10) ...
-		
+	public void addBookToLendArry(Book book) {
 		Book[] newLentArray = new Book[lentBooks.length+1];
 		
 		for(int i = 0; i < lentBooks.length; i++) {

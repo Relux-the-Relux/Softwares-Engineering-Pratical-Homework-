@@ -1,10 +1,37 @@
 
+/**
+ * Binary tree to organized the books within.
+ * ordered by the books' ISBN numbers. Lower numbers in the left subtree and higher in the right.
+ * 
+ */
+
 public class BookTree {
 
-	Book root;
+	protected Book root;
+	final public UserTree userTree;
 	
+	/**
+	 * constructor for the tree if empty
+	 */
 	public BookTree() {
 		root = null;
+		userTree = new UserTree();
+	}
+	/**
+	 * constructor if the tree is to have elements when initialized.
+	 * The position of names in the Arrays and isbns should match.
+	 * behavior is not defined is arrays of mismatched length are incorrectly given.
+	 * 
+	 * @param bookNames
+	 * @param isbns
+	 * @param authorNames
+	 */
+	public BookTree(String[] bookNames, int[] isbns, String[] authorNames) {
+		
+		for(int i = 0; i < isbns.length; i++) {
+			addNewBook(new Book(bookNames[i], isbns[i], authorNames[i], true));
+		}
+		userTree = new UserTree();
 	}
 	
 	
@@ -30,7 +57,9 @@ public class BookTree {
 	 */
 	public Book searchForBook(int ISBN) {
 		
-		if(this.root == null) addRoot();
+		if(this.root == null) {
+			return null;
+		}
 		
 		//pointer used to course through the tree; lands on required book if the book is in the tree
 		Book courserPointer = this.root;
@@ -62,7 +91,7 @@ public class BookTree {
 	 * 
 	 * @param book book to be added to the tree.
 	 */
-	public void addNewBook(Book newBook) {
+	private void addNewBook(Book newBook) {
 		
 		/* check if tree has been built yet 
 		 * TODO: Nikolay: I put this in because the assumption was that we only need to implement
@@ -70,17 +99,21 @@ public class BookTree {
 		 * account for both new books being added to the assortment and books being loaded into the RAM
 		 * from a persistent data carrier (data bank, hard drive etc.) 
 		 */
-		if (this.root == null) addRoot();
-		
+		if (this.root == null) {
+			addRoot(newBook);
+			return;
+		}
 		
 		int isbNum = newBook.ISBN;
 		
-		Book courserPointer = this.root, inserter = null;
+		Book courserPointer = this.root; //used to traverse the tree
+		Book inserter = null; //used as point of reference to add the Book onto the tree
 		
 		while(courserPointer != null) {
 			
 			inserter = courserPointer;
 			
+			//if entered isbn is bigger than isbn of current Book instance, go right in the tree
 			if(courserPointer.ISBN < isbNum) {
 				courserPointer = courserPointer.rightChild;
 			}
@@ -90,18 +123,115 @@ public class BookTree {
 				courserPointer = courserPointer.leftChild;
 			}
 			
-			//TODO: else throw an exception, because book is already in the tree?
-			
 		}
 		
 		if (inserter.ISBN > isbNum) {
-			inserter.setLeftChild(newBook);
-			newBook.setParent(inserter);
+			inserter.leftChild = newBook;
+			newBook.parent = inserter;
 		}
 		else {
-			inserter.setRightChild(newBook);
-			newBook.setParent(inserter);
+			inserter.rightChild = newBook;
+			newBook.parent = inserter;
 		}
 		
 	}
+	/**
+	 * Function used to lend books out.
+	 * Finds the book and user and then sets the book to unavailible and adds to the list of lent books of
+	 * the user. Also, adds the book to the list of books lent out by the user.
+	 * 
+	 * @param ISBN ISBN of the book
+	 * @param userName name of the user as string
+	 * 
+	 * @return return true if successful. returns false if book is not available, user does not exist
+	 * 			or user has already lent 10 books.
+	 */
+	
+	public boolean lendOutBook(int ISBN, String userName){
+		
+		Book book = searchForBook(ISBN);
+		
+		//if the book is not in the database, or is unavailable
+		if (book == null || book.available == false) {
+			return false;
+		}
+		
+		User user = userTree.findUser(userName);
+		
+		//if the user is not in the database, or lentout 10 books already.
+		if (user == null || user.lentBooks.length >= 10) {
+			return false;
+		}
+		
+		book.lendOut();
+		user.addBookToLendArray(book);
+		
+		return true;
+	}
+	
+	/**
+	 * Function for returning books from the user to the library.
+	 * 
+	 * @param ISBN isbn of the book as an integer.
+	 * @param userName userName name of the user as string
+	 * 
+	 * @return returns true if successful. returns false if book is already available, user does not exist
+	 * 			or user has has not lent the book
+	 */
+	
+	public boolean returnBook(int ISBN, String userName) {
+		
+		Book book = searchForBook(ISBN);
+		
+		//if the book is not in the database, or is unavailable
+		if (book == null || book.available == true) {
+			return false;
+		}
+		
+		User user = userTree.findUser(userName);
+		
+		//if the user is not in the database or has not lent the book
+		//TODO: check if user has lent book
+		if (user == null) {
+			return false;
+		}
+		
+		book.returnBook();
+		//TODO: function to remove book from user array.
+		
+		return true;
+	}
+	/**
+	 * Function for requesting books.
+	 * increases the counter of how many times the book was ordered and adds it to the array
+	 * of books ordered by the user.
+	 * In case the book is not yer in the database it is added to it and marked as unavailible.
+	 * 
+	 * @param bookName
+	 * @param ISBN
+	 * @param author
+	 * @param userName
+	 */
+	public void bookRequest(String bookName, int ISBN, String author, String userName) {
+		
+		Book book = searchForBook(ISBN);
+		
+		//if the book is not in the database
+		if (book == null) {
+			book = new Book(bookName, ISBN, author, false);
+			this.addNewBook(book);
+		}
+		
+		User user = userTree.findUser(userName);
+		
+		//TODO: check for if the user is not registred or has already ordered the book.
+		
+		book.bookOrderRequest();
+		//TODO: function to add to the array of ordered book by the user
+		
+		return;
+		
+	}
+	
+	
 }

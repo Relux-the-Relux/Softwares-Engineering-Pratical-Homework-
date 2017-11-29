@@ -27,6 +27,65 @@
 
 0.4v - 29/11/17(by Steven)
 	- created UserTree
-		funktions: findUser(String), 
+		functions: findUser(String), 
 				addUser(String), 
 				showAllUser()
+
+0.6v - 29/11/17(by Lucas)
+	
+	Book.java changes:
+	
+		-attributes in book.java that changed to protected:
+			- available, timesLentOut, lender, timesOrderedByUsers, parent, leftChild, rightChild
+		- added protected attribute onceAvailable to Book
+		- Book constructor is now protected, also now initializes all variables correctly..
+		
+		- function lendOut() is now protected.
+		- function lendOut() now only deals with books variables (for full functionality see function lendOutBook() from BookTree.java).
+		
+		- function returnBook() is now protected.
+		- function reutrnBook() is now correctly implemented.
+		
+		- function orderBook() is now private.
+		- fucntion orderBook() now also sets the varible onceAvailable.
+		
+		- fucntion orderBookRequest() is now protected.
+		- function orderBookRequest() is now implemented and only deals with Book's variable (see bookResquest() from BookTree.java for full fucntionality)
+		
+	BookTree.java changes:
+	
+		- added commentary aboutt he class.
+		- attributes in BookTree that changed to protected:
+			- root
+		-  public atttributes added to BookTree
+			- userTree
+		- added a second consctructor for the option of initializing a non-empty tree
+		- both consctructors correctly iniatlize a empty userTree
+		
+		- searchForBook() now correctly return null if the tree is empty instead of needlessly adding a book without parameters.
+		
+		- addNewBook() now is private
+		- addNewBook() now correctly passes the parameters when adding a book to the root.
+		- addNewBook() now immediatly returns after adding a book to the root
+		
+		- added public function lendOutBook(int isbn, String userName)
+		- it return false if unsuccesful, and true if unsuccesful.
+		- if usccesful it calls function lendOut() from Book and addToLendArray() from user.
+		
+		- added public function bookRequest(String bookName, int ISBN, String author, String userName)
+		- it has no return value
+		- it only fails if the user is not in the database(in this case it simply does nothing)
+		- if the book is not yet in the database, it adds the book to the database and marks it as unavailable
+		- calls orderBookRequest() from Book.java if succesful
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

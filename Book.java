@@ -48,18 +48,26 @@ public class Book {
 	}	
 	
 	/**
-	 * 
+	 * Return a book to the library. The book is made unavailable by the library if it has been lent out 
+	 * 50 times or more and then ordered if it has been requested twice or more.
 	 */
 	protected void returnBook() {
+		//if this book has been lent out 50 times or more, either:
+		if (this.timesLentOut >= 50) {
+			//order a new copy if it has been requested twice or more already
+			if (timesOrderedByUsers >= 2) {
+				orderBook();
+				return;
+			}
 			
-		if (this.timesLentOut >= 50 && timesOrderedByUsers >= 2) {
-
-			orderBook();
+			//or simply remove it from the active book assortment
+			available = false;
 			return;
 			
 		}
-		this.available = false;
-		return;
+		
+		//otherwise book is now in the library and available
+		this.available = true;
 		
 	}
 	

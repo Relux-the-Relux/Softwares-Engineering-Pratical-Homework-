@@ -101,7 +101,32 @@
 
 		-added cases in bookRequest() where user is either not registered or has already requested this same book
 		-added call to addBookToOrderedArray()
+		
 	
+	
+	
+	Changes from 30/11/17:
+	
+	Changes to User class:
+		-added function searchLentBook() 
+			-searches the user's array of lent out books for a specific book
+			-called in BookTree.returnBook()
+		
+	Changes to BookTree class:
+		-changes to function returnBook:
+			-added case that user tries to return a book that they have not lent out
+			-added necessary call to user.removeBookFromLendArray() to signify user no longer has lent this book out
+			
+	Changes to Book class: 
+		-according to homework assignment, the library no longer offers a book if it has been lent out 50 times 
+			or more and then ordered if the book has been requested twice or more:
+			
+			quote from homework assignment:
+			"Erfahrungsgemäß ubersteht es ein Buch nur 50 mal, ausgeliehen zu werden. Anschließend wird das
+			Buch aus dem Bestand aussortiert. Damit die Verfugbarkeit von beliebten Büchern dadurch nicht ¨
+			allzu stark leidet, genugen bei ausgemusterten Büchern bereits zwei Beschaffungsw ¨ unsche, bis die ¨
+			Bibliothek es erneut kauft."
+		-returnBook() has been rewritten accordingly
 	
 	
 	

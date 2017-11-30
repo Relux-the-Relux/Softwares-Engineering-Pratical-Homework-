@@ -191,21 +191,23 @@ public class BookTree {
 		User user = userTree.findUser(userName);
 		
 		//if the user is not in the database or has not lent the book
-		//TODO: check if user has lent book
-		if (user == null) {
+		if (user == null || user.searchLentBooks(book) == false) {
 			return false;
 		}
 		
 		book.returnBook();
-		//TODO: function to remove book from user array.
+		
+		//remove book from user array.
+		user.removeBookFromLendArray(book);
 		
 		return true;
 	}
+	
 	/**
 	 * Function for requesting books.
-	 * increases the counter of how many times the book was ordered and adds it to the array
+	 * Increases the counter of how many times the book was ordered and adds it to the array
 	 * of books ordered by the user.
-	 * In case the book is not yer in the database it is added to it and marked as unavailible.
+	 * In case the book is not yet in the database it is added to it and marked as unavailable.
 	 * 
 	 * @param bookName
 	 * @param ISBN
@@ -224,14 +226,16 @@ public class BookTree {
 		
 		User user = userTree.findUser(userName);
 		
+		//if user has not been registered yet or has requested the book before
 		if (user == null || user.searchOrderedBooks(book) == true) {
 			//TODO what now? simply return?
 			return;
 		}
 		
+		//save a request for this book
 		book.bookOrderRequest();
 		
-		//TODO: function to add to the array of ordered book by the user
+		//add book to the array of ordered book by the user
 		user.addBookToOrderedArray(book);
 		
 		return;

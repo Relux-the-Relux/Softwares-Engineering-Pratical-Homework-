@@ -88,6 +88,24 @@ public class User {
 	}
 	
 	/**
+	 * Search the array that lists the books a user has lent out for a specific book. 
+	 * 
+	 * @param book has the user lent this book out before?
+	 * @return true if user has lent the book out, false if not
+	 */
+	protected boolean searchLentBooks(Book book) {
+		
+		//loop to search the array of lent out books
+		for (int courser = 0; courser < lentBooks.length; courser++) {
+			if (lentBooks[courser] == book) return true; //if the book is in the array, return true
+		}
+		
+		//only case left: book is not in the array, therefore user has never lent out this book before
+		return false;
+		
+	}
+	
+	/**
 	 * Adds book object in argument to the array of books this user has requested. 
 	 * Used when a user requests a book they haven't requested before.
 	 * 

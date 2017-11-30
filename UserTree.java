@@ -38,7 +38,7 @@ public class UserTree {
 		 * 			the pointer to the User object if it is.
 		 */
 		
-		protected User findUser(String userName){
+		public User findUser(String userName){
 			int i =0;
 			User searchUser = root;
 			char[] userNameCharArray= StringtoChar(userName);
@@ -67,7 +67,7 @@ public class UserTree {
 		 * 
 		 * @param User user to be added to the tree.
 		 */
-		protected void addUser(User user) {
+		public void addUser(User user) {
 			int i=0;
 			if (root == null) {
 				addRoot(user);
@@ -138,7 +138,7 @@ public class UserTree {
 		/**
 		 * show all user in the System
 		 */
-		protected void showAllUser(){
+		public void showAllUser(){
 			TreeRekusiv(root);
 		}
 }

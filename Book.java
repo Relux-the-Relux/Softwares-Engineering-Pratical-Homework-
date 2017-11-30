@@ -89,7 +89,7 @@ public class Book {
 		
 		this.timesOrderedByUsers++;
 		
-		if(this.timesOrderedByUsers >= 5||(this.onceAvailable && this.timesOrderedByUsers >= 5)) {
+		if(this.timesOrderedByUsers >= 5||(this.onceAvailable && this.timesOrderedByUsers >= 2)) {
 			if(this.available == false) {
 				orderBook();
 			}

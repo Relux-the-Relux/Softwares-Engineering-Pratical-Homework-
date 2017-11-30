@@ -241,6 +241,23 @@ public class BookTree {
 		return;
 		
 	}
+	private void TreeRekusiv(Book node){
+		if(root.BOOKNAME.equals(node.BOOKNAME)){
+		System.out.println("Bookname : Author : ISBN");
+		System.out.println(node.BOOKNAME+" : "+node.AUTHOR+" : "+node.ISBN); 
+		}
+		if(node.leftChild!=null){
+			System.out.println(node.leftChild.BOOKNAME+" : "+node.leftChild.AUTHOR+" : "+node.leftChild.ISBN);
+			TreeRekusiv(node.leftChild);
+		}
+		if(node.rightChild!= null){
+			System.out.println(node.rightChild.BOOKNAME+" : "+node.rightChild.AUTHOR+" : "+node.rightChild.ISBN);
+			TreeRekusiv(node.rightChild);
+		}
+	}
+	public void ShowAllBooks (){
+		TreeRekusiv(root);
+	}
 	
 	
 }

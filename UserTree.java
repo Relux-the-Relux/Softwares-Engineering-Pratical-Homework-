@@ -18,7 +18,12 @@ public class UserTree {
 			return;
 		}
 
-
+		/**
+		 * this function transforms a string into a char array.
+		 * it is used to compare strings later.
+		 * @param String userName
+		 * @return char[]
+		 */
 		private char[] StringtoChar(String userName){
 			char[]  userNameCharArray = userName.toCharArray();
 			return userNameCharArray;
@@ -33,18 +38,18 @@ public class UserTree {
 		 * 			the pointer to the User object if it is.
 		 */
 		
-		public User findUser(String userName){
+		protected User findUser(String userName){
 			int i =0;
 			User searchUser = root;
 			char[] userNameCharArray= StringtoChar(userName);
 			while(searchUser != null && !(searchUser.userName.equals(userName))) {
 				char[]searchUserChar= StringtoChar(searchUser.userName);
 				
-				if(searchUserChar[i] < userNameCharArray[i]) 
+				if(searchUserChar[i] > userNameCharArray[i]) 
 				{
 					searchUser = searchUser.leftChild;
 				} else {
-					if(searchUserChar[i] > userNameCharArray[i]) 
+					if(searchUserChar[i] < userNameCharArray[i]) 
 					{
 						searchUser = searchUser.rightChild;
 					} 
@@ -62,7 +67,7 @@ public class UserTree {
 		 * 
 		 * @param User user to be added to the tree.
 		 */
-		public void addUser(User user) {
+		protected void addUser(User user) {
 			int i=0;
 			if (root == null) {
 				addRoot(user);
@@ -73,7 +78,7 @@ public class UserTree {
 			char[] userNameChar= StringtoChar(user.userName);
 			while(!(searchUser.userName.equals(user.userName))) {
 				char[]searchUserChar= StringtoChar(searchUser.userName);
-				if(searchUserChar[i] < userNameChar[i]) {
+				if(searchUserChar[i] > userNameChar[i]) {
 					if(searchUser.leftChild == null){
 						searchUser.leftChild = user;
 						user.parent = searchUser;
@@ -83,7 +88,7 @@ public class UserTree {
 					}
 					
 				} else {
-					if(searchUserChar[i] > userNameChar[i]) {
+					if(searchUserChar[i] < userNameChar[i]) {
 						if(searchUser.rightChild == null){
 							searchUser.rightChild = user;
 							user.parent = searchUser;
@@ -106,24 +111,34 @@ public class UserTree {
 			}
 			return;
 		}
-		
+		/**
+		 * rekusive function to find all nodes in the tree. 
+		 * almost in correct alphabetical order.
+		 * 
+		 * @param User node 
+		 */
 		private void TreeRekusiv(User node){
-			System.out.println(node.userName);
+			if(root.userName.equals(node.userName)){
+			System.out.println(node.userName); 
+			}
+			if(node.leftChild!=null){
+				System.out.println(node.leftChild.userName);
+				TreeRekusiv(node.leftChild);
+			}
+			
+			if(node.middleChild!=null){
+				System.out.println(node.middleChild.userName);
+			TreeRekusiv(node.middleChild);
+			}
 			if(node.rightChild!= null){
 				System.out.println(node.rightChild.userName);
 				TreeRekusiv(node.rightChild);
 			}
-			if(node.middleChild!=null){
-				System.out.println(node.middleChild.userName);
-				TreeRekusiv(node.middleChild);
-			}
-			 if(node.leftChild!=null){
-				System.out.println(node.leftChild.userName);
-				TreeRekusiv(node.leftChild);
-			}
 		}
-		
-		public void showAllUser(){
+		/**
+		 * show all user in the System
+		 */
+		protected void showAllUser(){
 			TreeRekusiv(root);
 		}
 }

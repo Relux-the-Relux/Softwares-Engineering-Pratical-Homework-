@@ -96,6 +96,7 @@ public class Console {
 	}
 	static private void eingabe(BookTree TBook){
 		int choose=-1;
+		Scanner scanner = new Scanner(System.in);
 		do{
 		System.out.println("Bitte auswahltreffen.");
 		System.out.println("0: Beenden.");
@@ -112,7 +113,6 @@ public class Console {
 		System.out.println("Eingabe bestaetigen = Enter");
 		System.out.println("Fuers Menu nach Bestaetigung nochmal Enter");
 		
-		Scanner scanner = new Scanner(System.in);
 		String readString = scanner.nextLine();
 		if (readString.equals("0")){
 			choose=0;
@@ -200,6 +200,7 @@ public class Console {
 		    readString = null;
 		}
 		} while(choose!=0);
+		scanner.close();
 		}
 	private static boolean testString (String a){
 		  for( int i = 0, n = a.length(); i<n; i++ ){

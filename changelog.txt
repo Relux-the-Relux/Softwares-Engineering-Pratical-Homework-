@@ -116,6 +116,7 @@
 		-changes to function returnBook:
 			-added case that user tries to return a book that they have not lent out
 			-added necessary call to user.removeBookFromLendArray() to signify user no longer has lent this book out
+		-added the funktion ShowAllBooks
 			
 	Changes to Book class: 
 		-according to homework assignment, the library no longer offers a book if it has been lent out 50 times 
@@ -127,6 +128,13 @@
 			allzu stark leidet, genugen bei ausgemusterten Büchern bereits zwei Beschaffungsw ¨ unsche, bis die ¨
 			Bibliothek es erneut kauft."
 		-returnBook() has been rewritten accordingly
+	
+	Changes to UserTree class:
+		- Fixed some errors in sorting and outputting.
+		
+	Upload Console Class:
+		- With this Class you can test the whole API
+		
 	
 	
 	

@@ -189,55 +189,25 @@ public class BookTree {
 		}
 		
 		User user = userTree.findUser(userName);
-		if (user == null) {
+		
+		//if the user is not in the database or has not lent the book
+		if (user == null || user.searchLentBooks(book) == false) {
 			return false;
 		}
 		
-		//if the user is not in the database or has not lent the book
-		for(int i=0; i<user.lentBooks.length;i++){
-			Book search = user.lentBooks[i];
-			if(search.BOOKNAME.equals(book.BOOKNAME)){
-				book.returnBook();
-				return true;
-			}
-			
-		}
+		book.returnBook();
 		
+		//remove book from user array.
+		user.removeBookFromLendArray(book);
 		
-		
-		//TODO: function to remove book from user array.
-		
-		return false;
-	}
-	/**
-	 * rekusive function to find all nodes in the tree. 
-	 * almost in correct alphabetical order.
-	 * 
-	 * @param User node 
-	 */
-	private void TreeRekusiv(Book node){
-		if(root.BOOKNAME.equals(node.BOOKNAME)){
-		System.out.println("Bookname : Author : ISBN");
-		System.out.println(node.BOOKNAME+" : "+node.AUTHOR+" : "+node.ISBN); 
-		}
-		if(node.leftChild!=null){
-			System.out.println(node.leftChild.BOOKNAME+" : "+node.leftChild.AUTHOR+" : "+node.leftChild.ISBN);
-			TreeRekusiv(node.leftChild);
-		}
-		if(node.rightChild!= null){
-			System.out.println(node.rightChild.BOOKNAME+" : "+node.rightChild.AUTHOR+" : "+node.rightChild.ISBN);
-			TreeRekusiv(node.rightChild);
-		}
-	}
-	public void ShowAllBooks (){
-		TreeRekusiv(root);
+		return true;
 	}
 	
 	/**
 	 * Function for requesting books.
-	 * increases the counter of how many times the book was ordered and adds it to the array
+	 * Increases the counter of how many times the book was ordered and adds it to the array
 	 * of books ordered by the user.
-	 * In case the book is not yer in the database it is added to it and marked as unavailible.
+	 * In case the book is not yet in the database it is added to it and marked as unavailable.
 	 * 
 	 * @param bookName
 	 * @param ISBN
@@ -256,18 +226,37 @@ public class BookTree {
 		
 		User user = userTree.findUser(userName);
 		
+		//if user has not been registered yet or has requested the book before
 		if (user == null || user.searchOrderedBooks(book) == true) {
 			//TODO what now? simply return?
 			return;
 		}
 		
+		//save a request for this book
 		book.bookOrderRequest();
 		
-		//TODO: function to add to the array of ordered book by the user
+		//add book to the array of ordered book by the user
 		user.addBookToOrderedArray(book);
 		
 		return;
 		
+	}
+	private void TreeRekusiv(Book node){
+		if(root.BOOKNAME.equals(node.BOOKNAME)){
+		System.out.println("Bookname : Author : ISBN");
+		System.out.println(node.BOOKNAME+" : "+node.AUTHOR+" : "+node.ISBN); 
+		}
+		if(node.leftChild!=null){
+			System.out.println(node.leftChild.BOOKNAME+" : "+node.leftChild.AUTHOR+" : "+node.leftChild.ISBN);
+			TreeRekusiv(node.leftChild);
+		}
+		if(node.rightChild!= null){
+			System.out.println(node.rightChild.BOOKNAME+" : "+node.rightChild.AUTHOR+" : "+node.rightChild.ISBN);
+			TreeRekusiv(node.rightChild);
+		}
+	}
+	public void ShowAllBooks (){
+		TreeRekusiv(root);
 	}
 	
 	
